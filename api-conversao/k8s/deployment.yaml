@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-azure-teste
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-azure
+  template:
+    metadata:
+      labels:
+        app: api-azure
+    spec:
+      containers:
+      - name: api-azure
+        image: jeanlucafp/teste-jeanluca:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+            
