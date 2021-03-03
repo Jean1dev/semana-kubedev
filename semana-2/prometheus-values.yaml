@@ -1,0 +1,26 @@
+# Não instala o Alert Manager
+alertmanager:
+  enabled: false
+# Não instala o Push Gateway
+pushgateway:  
+  enabled: false  
+# Não instalar o State Metrics
+kubeStateMetrics:
+  enabled: false
+
+server:
+  global:
+    ## Intervalo entre os scrapes     
+    scrape_interval: 5s
+    ## Tempo de timeout para um scrape
+    scrape_timeout: 5s 
+
+  persistentVolume:
+    ## Desabilito a opção de volume para o Prometheus ( NÃO FAZER ISSO EM PRODUÇÃO !!!)    
+    enabled: false
+
+  service:
+    ## Defino o tipo do Service 
+    type: NodePort
+    ## Definindo a porta que vai ser usada no Service NodePort
+    nodePort: 30001

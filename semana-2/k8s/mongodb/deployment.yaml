@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb
+  name: mongodb-deployment
 spec:
   selector:
     matchLabels:
@@ -16,36 +16,9 @@ spec:
         image: mongo:4.2.8
         ports:
         - containerPort: 27017
+        resources: {}
         env:
-          - name: MONGO_INITDB_ROOT_USERNAMEapiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: api-produto-deploy
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: produto-api
-  template:
-    metadata:
-      labels:
-        app: produto-api
-    spec:
-      containers:
-      - name: produto-api
-        image: <Image>
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-        ports:
-        - containerPort: 8080
-        env:
-            - name: MONGODB_URI
-              value: url_do_mongo
-            
-
+          - name: MONGO_INITDB_ROOT_USERNAME
             value: mongouser
           - name: MONGO_INITDB_ROOT_PASSWORD
             value: mongopwd
-
