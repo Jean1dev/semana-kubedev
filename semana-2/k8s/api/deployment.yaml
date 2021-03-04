@@ -1,27 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-produto-deploy
-spec:
-  replicas: 1
-  selector:
+  name: api
+spec:    
+  selector:    
     matchLabels:
-      app: produto-api
+      app: api
   template:
-    metadata:
+    metadata:   
+      annotations:
+        prometheus.io/scrape: "true"   
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8080"
       labels:
-        app: produto-api
+        app: api
     spec:
       containers:
-      - name: produto-api
-        image: <Image>
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+      - name: api
+        image: fabricioveronez/api-produto:v1        
+        resources: {}              
         ports:
         - containerPort: 8080
         env:
-            - name: MONGODB_URI
-              value: url_do_mongo
-            
+          - name: MONGODB_URI
+            value: mongodb://mongouser:mongopwd@mongodb-service:27017/admin
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
