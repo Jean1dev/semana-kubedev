@@ -15,6 +15,12 @@ spec:
       labels:
         app: api
     spec:
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: "25%"
+          maxUnavailable: "25%"
+      replicas: 2
       containers:
       - name: api
         image: fabricioveronez/api-produto:v1        
