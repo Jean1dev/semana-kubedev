@@ -1,36 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api
-spec:    
-  selector:    
+  name: api-deployment
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "25%"
+      maxUnavailable: "25%"
+  replicas: 2
+  selector:
     matchLabels:
       app: api
-  template:
-    metadata:   
+  template: 
+    metadata:  
       annotations:
-        prometheus.io/scrape: "true"   
+        prometheus.io/scrape: "true"
         prometheus.io/path: /metrics
-        prometheus.io/port: "8080"
+        prometheus.io/port: "8080"              
       labels:
         app: api
-    spec:
-      strategy:
-        type: RollingUpdate
-        rollingUpdate:
-          maxSurge: "25%"
-          maxUnavailable: "25%"
-      replicas: 2
+    spec:            
       containers:
-      - name: api
-        image: fabricioveronez/api-produto:v1        
-        resources: {}              
+      - name: api        
+        image: fabricioveronez/api-produto
         ports:
-        - containerPort: 8080
+        - containerPort: 8080        
         env:
           - name: MONGODB_URI
-            value: mongodb://mongouser:mongopwd@mongodb-service:27017/admin
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
+            value: mongodb://mongodbuser:mongodbpwd@mongo-service:27017/admin
