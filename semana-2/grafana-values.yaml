@@ -2,7 +2,7 @@ service:
   ## Defino o tipo do Service 
   type: NodePort
   ## Definindo a porta que vai ser usada no Service NodePort
-  nodePort: 30002
+  nodePort: 30003
 
 ## Definição do usuário administrador
 adminUser: admin

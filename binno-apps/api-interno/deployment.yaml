@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-interno
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "25%"
+      maxUnavailable: "25%"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-interno
+  template: 
+    metadata:  
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8181"              
+      labels:
+        app: api-interno
+    spec:            
+      containers:
+      - name: api-interno        
+        image: jeanlucafp/apiinterno:1
+        ports:
+        - containerPort: 8181        
+        env:
+          - name: PORT
+            value: "8181"
+          - name: NODE_ENV
+            value: production
+          - name: MONGO_URL
+            value: mongodb://192.168.2.107:27017/binno_db
+          - name: API_KEY_MAIL
+            value: ofqiwhfeowehfowei
